@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>CS253 BLOG</title>
+	</head>
+<body>
+	{% for post in posts %}
+	<hr>
+	<h1>{{post.subject}}</h1>
+	<div>{{post.content}}</div>
+	{% endfor %}
+</body>
+
+</html>
+

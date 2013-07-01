@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<h2>Signup</h2>
+
+<form method="POST">
+	<lable>
+		Username<input name="username" value="{{username}}"><div style="color:red">
+			{{username_error}}</div>
+		</lable>
+	<br>
+	<lable>
+		Password<input type="PASSWORD" name="password"><div style="color:red">
+			{{passwd_error}}</div>
+		</lable>
+	<br>
+	<lable>
+		Verify<input type="PASSWORD" name="verify">
+		</lable>
+	<br>
+	<lable>
+		Email<input name="email" value="{{email}}"><div style="color:red">
+			{{email}}</div>
+		</lable>
+	<br>
+	<input type="SUBMIT">
+</form>
+

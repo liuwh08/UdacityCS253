@@ -1,0 +1,16 @@
+application: liuwh08-helloudacity
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /blog/.*
+  script: blog.application
+- url: /(signup|Welcome|login|logout)/?
+  script: register.application
+
+libraries:
+- name: jinja2
+  version: latest
+
