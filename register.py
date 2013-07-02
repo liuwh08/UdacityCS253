@@ -85,7 +85,7 @@ class Register(Handler):
       key_hash = make_hash_str(key)
       self.response.headers.add_header('Set-Cookie', "user_id=%s;Path=/" % key_hash) 
       #print "Redirecting.......\n"
-      self.redirect('/Welcome')
+      self.redirect('/blog/welcome')
     else:
       self.render('register.html', username = username, email = email, username_error = username_error, passwd_error = passwd_error, email_error = email_error)
 
@@ -102,7 +102,7 @@ class Wel(Handler):
       self.write('Welcome %s' % username)
     else:
       self.response.headers.add_header('Set-Cookie','access_token=deleted; Expires=Thu, 01-Jan-1970 00:00:00 GMT;Path=/')
-      self.redirect('/signup/')
+      self.redirect('/blog/signup')
       #self.write('No-Cookie')
 
 class Login(Handler):
@@ -122,14 +122,14 @@ class Login(Handler):
       key = str(Usr.key().id())
       key_hash = make_hash_str(key)
       self.response.headers.add_header('Set-Cookie', "user_id=%s;Path=/" % key_hash)
-      self.redirect('/Welcome')
+      self.redirect('/blog/welcome')
     else:
       self.render('login.html', username = username, login_error_msg = 'Invalid Username or Password!!')
 
 class Logout(Handler):
   def get(self):
     self.response.headers.add_header('Set-Cookie','user_id=;access_token=deleted; Expires=Thu, 01-Jan-1970 00:00:00 GMT;Path=/')
-    self.redirect('/signup')
+    self.redirect('/blog/signup')
 
 
 
@@ -140,8 +140,8 @@ class User(db.Model):
   created = db.DateTimeProperty(auto_now_add = True)
 
 application = webapp2.WSGIApplication([
-                                      (r'/Welcome/?', Wel),
-                                      (r'/login/?', Login),
-                                      (r'/logout/?', Logout),
-                                      (r'/signup/?', Register)], debug = True)
+                                      (r'/blog/welcome/?', Wel),
+                                      (r'/blog/login/?', Login),
+                                      (r'/blog/logout/?', Logout),
+                                      (r'/blog/signup/?', Register)], debug = True)
 

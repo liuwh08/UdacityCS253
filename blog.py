@@ -5,7 +5,8 @@ import os
 import webapp2
 import jinja2
 from google.appengine.ext import db
-
+import time
+import json
 
 template_dir = os.path.join( os.path.dirname(__file__), 'templates')
 jinja2_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
@@ -57,8 +58,39 @@ class posts(db.Model):
   content = db.TextProperty(required = True)
   created = db.DateTimeProperty(auto_now_add = True)
 
+
+class MainPageJson(Handler):
+  def get(self):
+    self.response.headers['Content-Type'] = 'application/json'
+    posts = db.GqlQuery("select * from posts order by created desc limit 10")
+    j = []
+    for post in posts:
+      content = post.content
+      subject = post.subject
+      created = post.created.strftime("%a, %d %b %Y %H:%M:%S")
+      j.append({'content': content,
+                'subject': subject,
+                'created': created})
+    j = json.dumps(j)
+    self.write(j)
+
+class SingleBlogJson(Handler):
+  def get(self, key):
+    self.response.headers['Content-Type'] = 'application/json'
+    p = db.Key.from_path('posts', int(key))
+    p = db.get(p)
+    j = {'content': p.content,
+         'subject': p.subject,
+         'created': p.created.strftime("%a %d %b %Y %H:%M:%S")}
+    j = json.dumps(j)
+    self.write(j)
+
+
+
 application = webapp2.WSGIApplication([
                                       (r'/blog/?', MainPage),
                                       (r'/blog/(\d+)', ShowBlog),
+                                      (r'/blog/\.json', MainPageJson),
+                                      (r'/blog/(\d+)\.json', SingleBlogJson),
                                       (r'/blog/newpost/?', NewBlog)], debug = True)
 
