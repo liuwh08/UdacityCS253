@@ -5,6 +5,8 @@ api_version: 1
 threadsafe: true
 
 handlers:
+- url: /wiki/?.*
+  script: wiki.application
 - url: /blog/?
   script: blog.application
 - url: /blog/\.json
